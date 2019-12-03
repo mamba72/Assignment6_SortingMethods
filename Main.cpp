@@ -42,6 +42,16 @@ public:
 	}
 };
 
+//exception thrown when the file doesnt contain anything
+class FileIsEmptyException : public runtime_error
+{
+public:
+	FileIsEmptyException(string msg) : runtime_error(msg.c_str())
+	{
+
+	}
+};
+
 arrayFromFile* readFromFile(string fileName);
 
 int main(int argc, char** argv)
@@ -75,6 +85,11 @@ int main(int argc, char** argv)
 		return 1;
 	}
 	catch (FileNotInCorrectFormatException e)
+	{
+		cout << e.what() << endl;
+		return 1;
+	}
+	catch (FileIsEmptyException e)
 	{
 		cout << e.what() << endl;
 		return 1;
@@ -215,7 +230,11 @@ arrayFromFile* readFromFile(string fileName)
 
 	string line = "";
 
+
 	getline(file, line);
+
+	if (line == "")
+		throw FileIsEmptyException("File by the name of " + fileName + " is empty.");
 
 	int numNumbers = 0;
 
@@ -226,7 +245,7 @@ arrayFromFile* readFromFile(string fileName)
 	}
 	catch (invalid_argument e)
 	{
-		throw FileNotInCorrectFormatException("Your file is not in the correct format.\nIt must start with an int but first line is " + line);
+		throw FileNotInCorrectFormatException("Your file is not in the correct format.\nIt must start with an int but first line is " + line + ".");
 	}
 
 	//create the array with the given length from the file
