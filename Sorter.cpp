@@ -9,9 +9,46 @@ Assignment 6 Sorting
 #include "Sorter.h"
 
 //sorting functions:
-void Sorter::QuickSort(double* myArray, int arrayLength)
+
+/*
+low = starting index
+high = ending index
+*/
+void Sorter::QuickSort(double* myArray, int low, int high)
 {
 
+	if (low < high)
+	{
+		int pi = partition(myArray, low, high);
+
+		QuickSort(myArray, low, pi - 1);
+		QuickSort(myArray, pi + 1, high);
+	}
+
+
+}
+
+int Sorter::partition(double* arr, int low, int high)
+{
+	int pivot = arr[high];
+	int i = (low - 1);
+
+	for (int j = low; j <= high - 1; ++j)
+	{
+		if (arr[j] < pivot)
+		{
+			++i;
+			double tmp = arr[i];
+			arr[i] = arr[j];
+			arr[j] = tmp;
+		}
+	}
+
+	double tmp = arr[i + 1];
+	arr[i + 1] = arr[high];
+	arr[high] = tmp;
+
+	return (i + 1);
 }
 
 

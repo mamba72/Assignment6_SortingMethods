@@ -10,11 +10,11 @@ Assignment 6 Sorting
 
 class Sorter
 {
-
+	static int partition(double* arr, int low, int high);
 
 	//sort functions
 public:
-	static void QuickSort(double* myArray, int arrayLength);
+	static void QuickSort(double* myArray, int low, int high);
 	static void InsertionSort(double* myArray, int arrayLength);
 	static void BubbleSort(double* myArray, int arrayLength);
 	static void MergeSort(double* myArray, int arrayLength);

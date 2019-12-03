@@ -11,7 +11,10 @@ This is data structures assignment 6. It is a program that runs 4 different sort
 
 # References
 1. http://www.cplusplus.com/reference/ctime/
-2. 
+2. https://stackoverflow.com/questions/14391327/how-to-get-duration-as-int-millis-and-float-seconds-from-chrono
+3. https://stackoverflow.com/questions/997946/how-to-get-current-time-and-date-in-c
+4. https://www.geeksforgeeks.org/quick-sort/
+5. 
 
 # Instructions
 1. 
