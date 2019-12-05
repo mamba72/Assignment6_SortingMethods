@@ -95,7 +95,7 @@ int main(int argc, char** argv)
 		return 1;
 	}
 	
-
+	//grab the array from the arrayInfo struct
 	double* arrBub = arrayInfo->myArray;
 	int arrLength = arrayInfo->arrayLength;
 
@@ -120,6 +120,12 @@ int main(int argc, char** argv)
 	for (int i = 0; i < arrLength; ++i)
 	{
 		arrQuick[i] = arrayInfo->myArray[i];
+	}
+
+	double* arrMerge = new double[arrLength];
+	for (int i = 0; i < arrLength; ++i)
+	{
+		arrMerge[i] = arrayInfo->myArray[i];
 	}
 
 	cout << "Finished copying arrays." << endl;
@@ -213,13 +219,35 @@ int main(int argc, char** argv)
 	cout << seconds.count() << " seconds." << endl;
 
 
+	//merge sort
+	cout << "\nStarting Merge Sort..." << endl;
+
+	//get the start time
+	start = chrono::system_clock::now();
+	startTime = chrono::system_clock::to_time_t(start);
+	cout << "Merge Sort Start Time: " << ctime(&startTime);
+	//sort
+	Sorter::MergeSort(arrMerge, 0, arrLength - 1);
+	//get the end time
+	end = chrono::system_clock::now();
+	cout << "Finished Merge Sort" << endl;
+	endTime = chrono::system_clock::to_time_t(end);
+	cout << "End Time: " << ctime(&endTime);
+	cout << "Time it took to do Merge sort:" << endl;
+
+	//get the elapsed time
+	seconds = end - start;
+	cout << seconds.count() << " seconds." << endl;
+
+
+
 	return 0;
 }
 
 
 
 
-//returns the double array from the file
+//returns the double array and array length from the file
 arrayFromFile* readFromFile(string fileName)
 {
 	ifstream file;
