@@ -13,6 +13,7 @@ Assignment 6 Sorting
 #include"Sorter.h"
 #include <fstream>
 #include <string>
+#include <random>
 
 using namespace std;
 
@@ -52,7 +53,20 @@ public:
 	}
 };
 
+const string AnalysisFolderName = "Analysis";
+const string AnalysisTextFileName = "SortingTimes.txt";
+
+//this is the separator between file names. Just because I'm not sure which one to use
+//since its a docker container over windows
+const char kPathSeparator =
+#ifdef _WIN32
+'\\';
+#else
+'/';
+#endif
+
 arrayFromFile* readFromFile(string fileName);
+void writeRandomFile(unsigned int numberOfRandoms);
 
 int main(int argc, char** argv)
 {
@@ -60,16 +74,30 @@ int main(int argc, char** argv)
 	if (argc != 2)
 	{
 		cout << "You must enter a file name as well." << endl;
+		cout << "If you'd like to randomly generate numbers instead, type \'Random\' instead of a file." << endl;
 		return 1;
 	}
-
-	string fileName = argv[1];
 
 	//create the time object
 	typedef std::chrono::high_resolution_clock Time;
 	typedef std::chrono::milliseconds ms;
 	typedef std::chrono::duration<float> fsec;
 
+	string fileName = argv[1];
+
+	if (fileName == "Random")
+	{
+		unsigned int numNumbers = 0;
+		cout << "Enter the number of random doubles you'd like to create:" << endl;
+		cout << "WARNING: if you pull a stupid and put in a negative, it will make an enormous amount of numbers" << endl;
+		cin >> numNumbers;
+
+		cout << "Generating random numbers. This can take a while..." << endl;
+		writeRandomFile(numNumbers);
+		cout << "Finished creating random numbers" << endl;
+		fileName = "RandomizedTestFile.txt";
+	}
+	
 	//start all that jazz
 
 
@@ -101,7 +129,13 @@ int main(int argc, char** argv)
 
 	cout << "The length of the arrays: " << arrLength << endl;
 
-	cout << "Creating 3 other copies of the array. This might take some time if it is an extremely large dataset." << endl;
+	ofstream outFile;
+	string outFileName = AnalysisFolderName + kPathSeparator + AnalysisTextFileName;
+	outFile.open(outFileName);
+
+	outFile << "Dataset Size: " << arrLength << endl;
+
+	//cout << "Creating 3 other copies of the array. This might take some time if it is an extremely large dataset." << endl;
 
 	double* arrSelect = new double[arrLength];
 	//creating a copy of the original array because otherwise all the sorting will be done by the first function
@@ -130,14 +164,6 @@ int main(int argc, char** argv)
 
 	cout << "Finished copying arrays." << endl;
 
-
-	//print the array
-	for (int i = 0; i < 10; ++i)
-	{
-		cout << arrBub[i] << " ";
-	}
-	cout << endl;
-
 	//bubble sort
 	cout << "\nStarting Bubble Sort..." << endl;
 	
@@ -158,6 +184,9 @@ int main(int argc, char** argv)
 	fsec seconds = end - start;
 	cout << seconds.count() << " seconds." << endl;
 
+	//print to the file
+	outFile << "Bubble Sort Time Required (seconds): " << seconds.count() << endl;
+
 	//selection sort
 	cout << "\nStarting Selection Sort..." << endl;
 	//get the starting time
@@ -176,6 +205,9 @@ int main(int argc, char** argv)
 	seconds = end - start;
 
 	cout << seconds.count() << " seconds." << endl;
+
+	//print to the file
+	outFile << "Selection Sort Time Required (seconds): " << seconds.count() << endl;
 
 	
 	//insertion sort
@@ -196,6 +228,9 @@ int main(int argc, char** argv)
 	seconds = end - start;
 
 	cout << seconds.count() << " seconds." << endl;
+
+	//print to the file
+	outFile << "Insertion Sort Time Required (seconds): " << seconds.count() << endl;
 
 
 	//quicksort
@@ -218,6 +253,9 @@ int main(int argc, char** argv)
 	seconds = end - start;
 	cout << seconds.count() << " seconds." << endl;
 
+	//print to the file
+	outFile << "Quick Sort Time Required (seconds): " << seconds.count() << endl;
+
 
 	//merge sort
 	cout << "\nStarting Merge Sort..." << endl;
@@ -239,7 +277,10 @@ int main(int argc, char** argv)
 	seconds = end - start;
 	cout << seconds.count() << " seconds." << endl;
 
+	//print to the file
+	outFile << "Merge Sort Time Required (seconds): " << seconds.count() << endl;
 
+	outFile.close();
 
 	return 0;
 }
@@ -311,3 +352,24 @@ arrayFromFile* readFromFile(string fileName)
 
 }
 
+
+
+void writeRandomFile(unsigned int numberOfRandoms)
+{
+	srand(time(NULL));
+
+	double num;
+
+	ofstream file;
+	file.open("RandomizedTestFile.txt");
+
+	file << numberOfRandoms << endl;
+
+	for (unsigned int i = 0; i < numberOfRandoms; ++i)
+	{
+		num = (double)rand() / RAND_MAX;
+		file << num << endl;
+	}
+
+	file.close();
+}

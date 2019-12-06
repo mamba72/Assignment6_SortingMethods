@@ -6,7 +6,8 @@ Data Structures Section 1
 Assignment 6 Sorting
 */
 
-#include "GenLinkedList.h"
+#include<iostream>
+using namespace std;
 
 class Sorter
 {

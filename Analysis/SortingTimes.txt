@@ -1,0 +1,6 @@
+Dataset Size: 100000
+Bubble Sort Time Required (seconds): 104.84
+Selection Sort Time Required (seconds): 43.0523
+Insertion Sort Time Required (seconds): 12.8161
+Quick Sort Time Required (seconds): 44.5204
+Merge Sort Time Required (seconds): 0.0744828
