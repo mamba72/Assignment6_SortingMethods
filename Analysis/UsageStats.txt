@@ -1,0 +1,12 @@
+Dataset Size: 100,000
+
+CPU Usage:
+Bubble Sort Usage: ~13%
+Selection Sort Usage: ~14%
+Insertion Sort Usage: ~
+Quick Sort Usage: ~13%
+Merge Sort Usage: UNKNOWN (happens too fast)
+
+
+Memory Usage:
+Merge Sort Usage: UNKNOWN (happens too fast)
